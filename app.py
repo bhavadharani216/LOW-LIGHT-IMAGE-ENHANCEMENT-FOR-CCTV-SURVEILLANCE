@@ -24,6 +24,7 @@ if uploaded_file is not None:
     enhanced_rgb = cv2.cvtColor(enhanced, cv2.COLOR_BGR2RGB)
     gamma_rgb = cv2.cvtColor(gamma_img, cv2.COLOR_BGR2RGB)
 
+
     # Display
     st.subheader("Results")
     st.image([img, enhanced_rgb, gamma_rgb],
