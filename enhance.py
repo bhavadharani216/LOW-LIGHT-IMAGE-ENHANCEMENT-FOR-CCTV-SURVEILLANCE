@@ -27,7 +27,6 @@ def gamma_correction(image, gamma=1.5):
 
     return cv2.LUT(image, table)
 
-
 if __name__ == "__main__":
     # Load image
     image = cv2.imread("images/sample.jpg")
