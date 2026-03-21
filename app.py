@@ -37,6 +37,7 @@ if uploaded_file is not None:
              caption=["Original", "CLAHE Enhanced", "Gamma Adjusted", "Face Detection"],
              use_container_width=True)
 
+
     # 📄 Download button
     result = Image.fromarray(face_rgb)
     st.download_button("📥 Download Final Image", result.tobytes(), file_name="enhanced.png")
