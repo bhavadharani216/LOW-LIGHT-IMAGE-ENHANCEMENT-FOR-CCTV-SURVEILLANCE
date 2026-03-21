@@ -1,24 +1,21 @@
 import cv2
 import numpy as np
 
+# CLAHE Enhancement
 def enhance_image(image):
-    # Convert to LAB color space
     lab = cv2.cvtColor(image, cv2.COLOR_BGR2LAB)
     l, a, b = cv2.split(lab)
 
-    # Apply CLAHE
     clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8))
     cl = clahe.apply(l)
 
-    # Merge channels
     merged = cv2.merge((cl, a, b))
-
-    # Convert back to BGR
     enhanced = cv2.cvtColor(merged, cv2.COLOR_LAB2BGR)
 
     return enhanced
 
 
+# Gamma Correction
 def gamma_correction(image, gamma=1.5):
     invGamma = 1.0 / gamma
     table = np.array([
@@ -27,17 +24,17 @@ def gamma_correction(image, gamma=1.5):
 
     return cv2.LUT(image, table)
 
-if __name__ == "__main__":
-    # Load image
-    image = cv2.imread("images/sample.jpg")
 
-    enhanced = enhance_image(image)
-    gamma_img = gamma_correction(enhanced)
+# Face Detection
+face_cascade = cv2.CascadeClassifier(
+    cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
+)
 
-    # Show results
-    cv2.imshow("Original", image)
-    cv2.imshow("Enhanced", enhanced)
-    cv2.imshow("Gamma Corrected", gamma_img)
+def detect_faces(image):
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
 
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    for (x, y, w, h) in faces:
+        cv2.rectangle(image, (x,y), (x+w,y+h), (0,255,0), 2)
+
+    return image
