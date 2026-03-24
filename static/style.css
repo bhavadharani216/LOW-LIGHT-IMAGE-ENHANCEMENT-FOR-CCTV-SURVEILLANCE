@@ -92,3 +92,38 @@ img {
     border: 2px solid #38bdf8;
     margin-top: 10px;
 }
+/* Card layout */
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+}
+
+/* Description text */
+.desc {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #cbd5f5;
+    line-height: 1.5;
+}
+.preview {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+
+/* 🔥 Responsive */
+@media (max-width: 1000px) {
+    .preview {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .preview {
+        grid-template-columns: 1fr;
+    }
+}

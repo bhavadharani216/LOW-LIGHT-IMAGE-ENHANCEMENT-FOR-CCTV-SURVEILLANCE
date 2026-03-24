@@ -37,24 +37,36 @@
     <!-- Preview Section -->
     <div class="preview">
 
-    <div>
+    <div class="card">
         <h3>Original</h3>
         <img id="originalPreview">
+        <p class="desc">
+            The original low-light image captured from CCTV, often with poor visibility and low contrast.
+        </p>
     </div>
 
-    <div>
+    <div class="card">
         <h3>CLAHE</h3>
         <img id="clahePreview">
+        <p class="desc">
+            CLAHE (Contrast Limited Adaptive Histogram Equalization) improves local contrast and enhances visibility in dark regions.
+        </p>
     </div>
 
-    <div>
+    <div class="card">
         <h3>Gamma</h3>
         <img id="gammaPreview">
+        <p class="desc">
+            Gamma correction adjusts brightness levels, making darker areas more visible without overexposing the image.
+        </p>
     </div>
 
-    <div>
+    <div class="card">
         <h3>Face Detection</h3>
         <img id="facePreview">
+        <p class="desc">
+            Detects human faces in the image using Haar Cascade, useful for surveillance and security analysis.
+        </p>
     </div>
 
 </div>
