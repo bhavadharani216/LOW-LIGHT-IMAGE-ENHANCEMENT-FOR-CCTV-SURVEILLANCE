@@ -1,43 +1,36 @@
-import streamlit as st
-import cv2
-import numpy as np
-from PIL import Image
-from enhance import enhance_image, gamma_correction, detect_faces
+from flask import Flask, render_template, request, send_file
+import os
+from enhancement import enhance_image
 
-st.title("🌙 Low Light Image Enhancement for CCTV Surveillance")
+app = Flask(__name__)
 
-uploaded_file = st.file_uploader("Upload a low-light image", type=["jpg", "png", "jpeg"])
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-if uploaded_file is not None:
-    # Load image safely
-    image = Image.open(uploaded_file).convert("RGB")
-    img = np.array(image)
+# 🟢 PAGE 1 → Landing Page
+@app.route('/')
+def home():
+    return render_template('home.html')
 
-    # Convert RGB → BGR
-    img_bgr = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+# 🔵 PAGE 2 → Main App
+@app.route('/app')
+def index():
+    return render_template('index.html')
 
-    # Enhancement
-    enhanced = enhance_image(img_bgr)
+# ⚡ Upload + Enhancement
+@app.route('/upload', methods=['POST'])
+def upload():
+    file = request.files['image']
+    
+    if file:
+        filepath = os.path.join(UPLOAD_FOLDER, file.filename)
+        file.save(filepath)
 
-    # 🎚️ Gamma slider
-    gamma_value = st.slider("Adjust Brightness (Gamma)", 0.5, 3.0, 1.5)
-    gamma_img = gamma_correction(enhanced, gamma_value)
+        output_path = os.path.join(UPLOAD_FOLDER, "enhanced_" + file.filename)
 
-    # 👤 Face detection
-    face_img = detect_faces(gamma_img.copy())
+        enhance_image(filepath, output_path)
 
-    # Convert back to RGB
-    enhanced_rgb = cv2.cvtColor(enhanced, cv2.COLOR_BGR2RGB)
-    gamma_rgb = cv2.cvtColor(gamma_img, cv2.COLOR_BGR2RGB)
-    face_rgb = cv2.cvtColor(face_img, cv2.COLOR_BGR2RGB)
+        return send_file(output_path, mimetype='image/jpeg')
 
-    # Display images
-    st.subheader("Results")
-    st.image([img, enhanced_rgb, gamma_rgb, face_rgb],
-             caption=["Original", "CLAHE Enhanced", "Gamma Adjusted", "Face Detection"],
-             use_container_width=True)
-
-
-    # 📄 Download button
-    result = Image.fromarray(face_rgb)
-    st.download_button("📥 Download Final Image", result.tobytes(), file_name="enhanced.png")
+if __name__ == '__main__':
+    app.run(debug=True)

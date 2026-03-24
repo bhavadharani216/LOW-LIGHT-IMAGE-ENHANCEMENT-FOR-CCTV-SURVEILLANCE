@@ -1,8 +1,6 @@
 #requirements 
 
 
+flask
 opencv-python
 numpy
-streamlit
-pillow
-matplotlib

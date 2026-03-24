@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Low Light Image Enhancement</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>LOW LIGHT IMAGE ENHANCEMENT FOR CCTV SURVEILLANCE</h1>
+
+    <form id="uploadForm">
+
+        <!-- Custom Upload Button -->
+        <label for="imageInput" class="custom-file-upload">
+            📁 Choose Image
+        </label>
+        <input type="file" id="imageInput" name="image" required>
+
+        <!-- File Name -->
+        <div id="fileName">No file selected</div>
+
+        <!-- Submit -->
+        <button type="submit">Enhance Image</button>
+
+    </form>
+
+    <!-- Preview Section -->
+    <div class="preview">
+        <div>
+            <h3>Original</h3>
+            <img id="originalPreview">
+        </div>
+
+        <div>
+            <h3>Enhanced</h3>
+            <img id="enhancedPreview">
+        </div>
+    </div>
+
+</div>
+
+<script src="/static/script.js"></script>
+
+</body>
+</html>
