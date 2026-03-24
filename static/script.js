@@ -1,10 +1,11 @@
-// Show file name
+// ✅ Show selected file name
 document.getElementById("imageInput").addEventListener("change", function () {
     let fileName = this.files[0]?.name || "No file selected";
     document.getElementById("fileName").textContent = fileName;
 });
 
-// Handle form submit
+
+// ✅ Handle form submit (UPDATED for multiple outputs)
 document.getElementById("uploadForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -19,18 +20,26 @@ document.getElementById("uploadForm").addEventListener("submit", async function 
     let formData = new FormData();
     formData.append("image", file);
 
-    // Show original image
+    // 🔹 Show original image instantly (preview before processing)
     document.getElementById("originalPreview").src = URL.createObjectURL(file);
 
-    // Send to backend
-    let response = await fetch("/upload", {
-        method: "POST",
-        body: formData
-    });
+    try {
+        // 🔹 Send to backend
+        let response = await fetch("/upload", {
+            method: "POST",
+            body: formData
+        });
 
-    let blob = await response.blob();
-    let url = URL.createObjectURL(blob);
+        let data = await response.json();
 
-    // Show enhanced image
-    document.getElementById("enhancedPreview").src = url;
+        // 🔥 Update ALL outputs
+        document.getElementById("originalPreview").src = data.original + "?t=" + new Date().getTime();
+        document.getElementById("clahePreview").src = data.clahe + "?t=" + new Date().getTime();
+        document.getElementById("gammaPreview").src = data.gamma + "?t=" + new Date().getTime();
+        document.getElementById("facePreview").src = data.face + "?t=" + new Date().getTime();
+
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Something went wrong!");
+    }
 });
